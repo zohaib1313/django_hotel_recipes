@@ -1,0 +1,83 @@
+{% extends 'base.html' %} {% block start %}
+
+<div class="container mt-5">
+  <form
+    class="col-6 mx-auto card p-3 shadow-lg"
+    method="post"
+    enctype="multipart/form-data"
+  >
+    {% csrf_token %}
+
+    <h2>Add Recipe</h2>
+    <div class="mb-3">
+      <label class="form-lable">Name</label>
+      <input type="text" required class="form-control" name="recipe_name" />
+    </div>
+    <div class="mb-3">
+      <label class="form-lable">Desription</label>
+      <textarea
+        class="form-control"
+        type="text"
+        required
+        name="recipe_description"
+      ></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-lable">Recipe image</label>
+      <input
+        required
+        type="file"
+        class="form-control-file"
+        name="recipe_image"
+      />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-success">Add Recipe</button>
+  </form>
+<hr>
+<form >
+<input type="text" name="search" class="form-control mb-2" placeholder="search food" />
+<button type="submit" class="btn btn-success">Search</button>
+</form>
+<hr>
+
+  <div class="table-responsive-md m-5" >
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Image</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for recipe in recipes %}
+        <tr>
+          <th scope="row">{{forloop.counter}}</th>
+          <td>{{recipe.recipe_name}}</td>
+          <td>{{recipe.recipe_description}}</td>
+          <td>
+            <img src="/media/{{recipe.recipe_image}}" style="height: 50px" />
+          </td>
+          <td>
+            <form action="Delete">
+            <div >
+               
+              <a href="/recipes_delete/{{recipe.id}}" class="btn btn-danger" type="submit">Delete</a>
+              <a href="/recipes_update/{{recipe.id}}" class="btn btn-primary" type="submit">Update</a>
+           
+            </div>
+        </form>
+          </td>
+        </tr>
+        {%endfor%}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}
+
